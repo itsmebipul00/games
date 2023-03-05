@@ -1,8 +1,9 @@
 import './App.css'
 import { useLocalStorage } from './Hooks/useLocalStorage'
 import { useEffect, useState } from 'react'
-import { Bin, Edit } from './icones'
 import { nanoid } from 'nanoid'
+import { Game } from './Components/Game'
+import { Login } from './Components/Login'
 
 function App() {
 	const initialGameState = {
@@ -15,6 +16,8 @@ function App() {
 	const [games, setGames] = useLocalStorage('games', undefined)
 	const [newGame, setNewGame] = useState(initialGameState)
 	const [editGame, setEditGame] = useState(false)
+	const [screen, setScreen] = useState('login')
+	const [name, setName] = useState('')
 
 	const getGames = async () => {
 		console.log('first')
@@ -65,36 +68,39 @@ function App() {
 		setEditGame(false)
 	}
 
-	return (
-		<div className='p-xl'>
-			<label htmlFor='game' className='font-xl'>
-				{editGame ? 'Edit Game' : 'Create Game'} :{'  '}
-			</label>
-			<input
-				id='game'
-				name='game'
-				placeholder='Enter game'
-				value={newGame.name}
-				onChange={handleGameNameChange}
-				className='font-xl'
+	const handleChange = e => {
+		setName(e.target.value)
+	}
+
+	const handleLogin = () => {
+		if (name.trim().length > 0) {
+			setScreen('game')
+		}
+	}
+
+	const allScreens = {
+		game: (
+			<Game
+				editGame={editGame}
+				newGame={newGame}
+				handleGameNameChange={handleGameNameChange}
+				handleEditSaveGame={handleEditSaveGame}
+				handleCreateNewGame={handleCreateNewGame}
+				games={games}
+				handleDeleteItem={handleDeleteItem}
+				handleEditGame={handleEditGame}
 			/>
-			<button
-				onClick={editGame ? handleEditSaveGame : handleCreateNewGame}
-				className='pointer font-xl'>
-				{editGame ? 'Save' : 'Create'}
-			</button>
-			<h2>All Games</h2>
-			<div className='games'>
-				{games?.map(game => (
-					<div key={game.id} className='game'>
-						<h3>{game.name}</h3>
-						<Bin onClick={() => handleDeleteItem(game.id)} />
-						<Edit onClick={() => handleEditGame(game.id)} />
-					</div>
-				))}
-			</div>
-		</div>
-	)
+		),
+		login: (
+			<Login
+				handleChange={handleChange}
+				handleLogin={handleLogin}
+				name={name}
+			/>
+		),
+	}
+
+	return allScreens[screen]
 }
 
 export default App

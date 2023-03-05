@@ -29,3 +29,34 @@
 .pointer{
   cursor: pointer;
 }
+
+.center-div{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login{
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.btn-login:hover{
+  background-color: #ebebeb;
+}
+
+.name{
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.login-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 20rem;
+}
