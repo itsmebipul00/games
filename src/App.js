@@ -16,7 +16,7 @@ function App() {
 	const [games, setGames] = useLocalStorage('games', undefined)
 	const [newGame, setNewGame] = useState(initialGameState)
 	const [editGame, setEditGame] = useState(false)
-	const [screen, setScreen] = useState('login')
+	const [screen, setScreen] = useLocalStorage('screen', 'login')
 	const [name, setName] = useState('')
 
 	const getGames = async () => {
